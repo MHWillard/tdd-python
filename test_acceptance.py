@@ -1,19 +1,22 @@
-import pytest
+import unittest
 from selenium import webdriver
 
-@pytest.fixture()
-def setup():
-    browser = webdriver.Firefox()
-    return browser
+class NewVisitorTest(unittest.TestCase):
 
-def test_title(setup):
+    def setUp(self):
+        self.browser = webdriver.Firefox()
 
-# Edith has heard about a cool new online to-do app. She goes
-# to check out its homepage
-    browser.get('http://localhost:8000')
+    def tearDown(self):
+        self.browser.quit()
 
-# She notices the page title and header mention to-do lists
-    assert 'To-Do' in browser.title
+    def test_can_start_a_list_and_retrieve_it_later(self):
+    # Edith has heard about a cool new online to-do app. She goes
+    # to check out its homepage
+        self.browser.get('http://localhost:8000')
+
+    # She notices the page title and header mention to-do lists
+        self.assertIn('To-Do', self.browser.title)
+        self.fail('Finish test')
 
 # She is invited to enter a to-do item straight away
 
@@ -36,3 +39,5 @@ def test_title(setup):
 
 # Satisfied, she goes back to sleep
 
+if __name__ == '__main__':
+    unittest.main()
